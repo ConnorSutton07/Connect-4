@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+
+body, canvas, html{margin:0;padding:0;border:0 none;}
+
+
+body {
+    font-family: 'Monserrat', sans-serif;
+    background: #fffaf0;
+}
+
+.canvas-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title  {
+    padding: 1em 0;
+}
+
+canvas {
+    background: #5AE130;
+    cursor: pointer;
+}
