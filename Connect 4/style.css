@@ -15,11 +15,7 @@ body {
     align-items: center;
 }
 
-.title  {
-    padding: 1em 0;
-}
-
 canvas {
-    background: #5AE130;
+    background: #176FA6;
     cursor: pointer;
 }
