@@ -19,3 +19,7 @@ canvas {
     background: #176FA6;
     cursor: pointer;
 }
+
+.reset {
+    cursor: pointer;
+}

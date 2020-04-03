@@ -1,18 +1,20 @@
 let canvas = document.querySelector('canvas');
-let turnTracker = document.querySelector('h3');
+let turnTracker = document.querySelector('.tracker');
+let reset = document.querySelector('.reset');
 
 canvas.height = window.innerHeight * (3/4);
 canvas.width = window.innerHeight * (3/4) * (7/6);
+let canvasX = (window.innerWidth - canvas.width) / 2;
 
 let c = canvas.getContext('2d');
 let length = canvas.height * (1/6);
 let radius = Math.sqrt(canvas.width) * 1.3;
 let isClicked = false;
 let playerTurn = 'Y';
-canvasX = (window.innerWidth - canvas.width) / 2;
 let board = [];
 let gameover = false;
-
+let piece_count = 0;
+let height = canvas.height;
 let mouse = 
 {
     x: undefined,
@@ -43,15 +45,15 @@ class Column
     }
     insert(piece)
     {
-        //window.alert("tryign to insert peice");
         for (let i = 5; i >= 0; i--)
         {
             if (this.pieces[i] == 'O')
             {
                 this.pieces[i] = piece;
+                piece_count++;
                 drawBoard();
 
-                gameover = CheckForWin(piece, this, this.order - 1, i);
+                if (piece_count > 7) gameover = CheckForWin(piece, this, this.order - 1, i);
                 if (gameover)
                 {
                     if (piece == 'Y') turnTracker.innerText = "Yellow wins!";
@@ -86,7 +88,6 @@ function CheckForWin(player, column, i, j)
     let col = j;
     let row = i;
 
-    window.alert("starting check");
     //count vertical pieces in a row
     while (col + 1 <= 6)
     {
@@ -95,6 +96,7 @@ function CheckForWin(player, column, i, j)
             vertical ++;
             col ++;
         }
+        else break;
     }
     col = j;
     while ((col - 1) >= 0)
@@ -103,7 +105,8 @@ function CheckForWin(player, column, i, j)
         {
             vertical ++;
             col --;
-        }
+        } 
+        else break;
     }
 
     //count horizontal pieces in a row
@@ -114,60 +117,74 @@ function CheckForWin(player, column, i, j)
             horizontal ++;
             row ++;
         }
+        else break;
     }
     row = i;
     while (row - 1 >= 0)
     {
-        if (board)
-    }
-    while (board[row - 1].pieces[j] == player && (row - 1) >= 0)
-    {
-        horizontal ++;
-        row --;
-        console.log("4");
+        if (board[row - 1].pieces[j] == player)
+        {
+            horizontal ++;
+            row --;
+        }
+        else break;
     }
 
     row = i;
     col = j;
     //count diagonal pieces from left to right
-    while (board[row - 1].pieces[col + 1] == player && (row - 1) >= 0 && (col + 1) <= 7)
+    while (row - 1 >= 0 && col + 1 <= 7)
     {
-        row --;
-        col ++;
-        diagonal_lr ++;
-        console.log("5");
+        if (board[row - 1].pieces[col + 1] == player)
+        {
+            row --;
+            col ++;
+            diagonal_lr ++;
+        }
+        else break;
     }
+
     row = i;
     col = j;
-    while (board[row + 1].pieces[col - 1] == player && (row + 1) <= 5 && (col - 1) >= 0)
+    while (row + 1 <= 5 && col - 1 >= 0)
     {
-        row ++;
-        col --;
-        diagonal_lr ++;
-        console.log("6");
+        if (board[row + 1].pieces[col - 1] == player)
+        {
+            row ++;
+            col --;
+            diagonal_lr ++;
+        }
+        else break;
     }
 
     //count diagonal pieces from right to left
     row = i;
     col = j;
-    while (board[row - 1].pieces[col - 1] == player && (row - 1) >= 0 && (col - 1) >= 0)
+    while (row - 1 >= 0 && col - 1 >= 0)
     {
-        row --;
-        col --;
-        diagonal_rl ++;
-        console.log("7");
-    }
-    row = i;
-    col = j;
-    while (board[row + 1].pieces[col + 1] == player && (row + 1) <= 5 && (col + 1) <= 6)
-    {
-        row ++;
-        col ++;
-        diagonal_rl ++;
-        console.log("8");
+        if (board[row - 1].pieces[col - 1] == player)
+        {
+            row --;
+            col --;
+            diagonal_rl ++;
+        }
+        else break;
+
     }
 
-    window.alert("Check ended");
+    row = i;
+    col = j;
+    while (row + 1 <= 5 && col + 1 <= 6)
+    {
+        if (board[row + 1].pieces[col + 1] == player)
+        {
+            row ++;
+            col ++;
+            diagonal_rl ++;
+        }
+        else break;
+    }
+
     if (vertical >= 4 || horizontal >= 4 || diagonal_lr >= 4 || diagonal_rl >= 4)
     {
         return true;
@@ -193,6 +210,8 @@ function drawBoard()
 
 function start()
 {
+    piece_count = 0;
+    gameover = false;
     board = [];
     isClicked = false;
     playerTurn = 'Y';
@@ -223,5 +242,6 @@ window.addEventListener('mousedown', () => {
 
 window.addEventListener('mouseup', () => {isClicked = false;});
 
+reset.addEventListener('click', start);
 
 start();
