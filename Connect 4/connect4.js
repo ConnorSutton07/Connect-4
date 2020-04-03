@@ -53,7 +53,7 @@ class Column
                 piece_count++;
                 drawBoard();
 
-                if (piece_count > 7) gameover = CheckForWin(piece, this, this.order - 1, i);
+                if (piece_count >= 7) gameover = CheckForWin(piece, this, this.order - 1, i);
                 if (gameover)
                 {
                     if (piece == 'Y') turnTracker.innerText = "Yellow wins!";
