@@ -33,6 +33,7 @@ window.addEventListener('resize', () =>
 {
     canvas.height = window.innerHeight * (3/4);
     canvas.width = window.innerHeight * (3/4) * (7/6);
+    drawBoard();
 });
 
 class Column
