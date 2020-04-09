@@ -27,4 +27,5 @@ canvas {
 a {
     text-decoration: none;
     font-weight: bold;
+    padding: 0 0 1em 0;
 }
