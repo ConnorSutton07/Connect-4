@@ -1,3 +1,1 @@
-Connect-4
-EECS 368
-Connor Sutton
+Connect-4 for two players!
